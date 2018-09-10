@@ -1,0 +1,54 @@
+配置euleros代理
+下载jdk并解压
+已有，都放在/usr/local/
+
+下载tomcat linux并解压
+https://www.jianshu.com/p/1e25fd0fba12
+"/usr/local/apache-tomcat-9.0.11/bin/catalina.sh"中配置javahome
+新建"/usr/local/apache-tomcat-9.0.11/bin/setenv.sh" 
+#add tomcat pid
+CATALINA_PID="$CATALINA_BASE/tomcat.pid"
+#add java opts
+JAVA_OPTS="-server -XX:PermSize=256M -XX:MaxPermSize=1024m -Xms512M -Xmx1024M -XX:MaxNewSize=256m"
+新建/usr/lib/systemd/system/tomcat.service
+[Unit]
+Description=Tomcat
+After=syslog.target network.target remote-fs.target nss-lookup.target
+[Service]
+Type=forking
+PIDFile=/usr/local/apache-tomcat-9.0.0.M18/tomcat.pid
+ExecStart=/usr/local/apache-tomcat-9.0.0.M18/bin/startup.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
+
+//配置开机启动 
+systemctl enable tomcat
+//启动tomcat
+systemctl start tomcat
+//停止tomcat
+systemctl stop tomcat
+//重启tomcat
+systemctl restart tomcat
+
+"/usr/local/apache-tomcat-9.0.11/conf/server.xml"中修改端口
+
+
+无法直接访问，两台euler互相访问
+
+列出所有端口
+netstat -ntlp
+
+    <Connector port="80" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+    <Connector
+           protocol="org.apache.coyote.http11.Http11NioProtocol"
+           port="4443" maxThreads="200"
+           scheme="https" secure="true" SSLEnabled="true"
+           keystoreFile="/root/tomcat.keystore" keystorePass="tomcat"
+           clientAuth="false" sslProtocol="TLS"/>
+
+PAP02	192.168.1.98	192.168.1.111	100.114.193.24	Cloud12#$
