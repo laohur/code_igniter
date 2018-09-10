@@ -1,0 +1,53 @@
+.bash_profile文件，加上 
+export TMOUT=1000000 (以秒为单位) 
+
+sudo vim /etc/ssh/sshd_config
+# 添加
+ClientAliveInterval 1
+ClientAliveCountMax 30
+
+
+http://blog.sina.com.cn/s/blog_99a65d2a0102xnht.html
+keytool -genkey -alias wsria -keyalg RSA -keystore d:/keys/wsriakey
+D:\keys>keytool -export -file d:/keys/wsria.crt -alias wsria -keystore d:/keys/wsriakey
+keytool -import -keystore D:\tools\jdk\1.6\jdk1.6.0_20\jre\lib\security\cacerts -file D:/keys/wsria.crt -alias wsria
+
+
+ keytool -genkeypair -alias "tomcat" -keyalg "RSA" -keystore "/root/tomcat.keystore"
+keytool -export -file /root/tomcat.crt -alias tomcat -keystore /root/tomcat.keystore
+keytool -import -keystore /usr/local/java/jdk1.8.0_181/jre/lib/security/cacerts  -file 
+/root/tomcat.crt -alias tomcat
+changeit
+
+
+
+
+/tomcat/bin  
+keytool -genkeypair -alias "tomcat" -keyalg "RSA" -keystore "/root/tomcat.keystore"  
+
+[root@EulerOS-BaseTemplate bin]# keytool -genkeypair -alias "tomcat" -keyalg "RSA" -keystore "/root/tomcat.keystore"
+Enter keystore password:
+Re-enter new password:666666
+
+What is your first and last name?
+  [666666]:  6
+What is the name of your organizational unit?
+  [666666]:  6
+What is the name of your organization?
+  [666666]:  6
+What is the name of your City or Locality?
+  [666666]:  6
+What is the name of your State or Province?
+  [666666]:  6
+What is the two-letter country code for this unit?
+  [CN]:  CN
+Is CN=6, OU=6, O=6, L=6, ST=6, C=CN correct?
+  [no]:  yes
+
+Enter key password for <tomcat>
+        (RETURN if same as keystore password):
+Re-enter new password:666666
+
+Warning:
+The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using "keytool -importkeystore -srckeystore /root/tomcat.keystore -destkeystore /root/tomcat.keystore -deststoretype pkcs12".
+[root@EulerOS-BaseTemplate bin]#
